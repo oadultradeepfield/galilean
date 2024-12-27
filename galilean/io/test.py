@@ -5,14 +5,14 @@ import cv2
 from handler import detect_and_crop
 
 
-def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 480) -> None:
+def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 448) -> None:
     """
     Test the detect_and_crop function by processing an image and saving the result.
     
     Args:
         image_path: Path to the input image file
         out_dir: Directory where the processed image will be saved
-        crop_size: Size of the square crop in pixels (default: 480)
+        crop_size: Size of the square crop in pixels (default: 448)
         
     Raises:
         FileNotFoundError: If the input image doesn't exist
