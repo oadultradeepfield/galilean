@@ -53,10 +53,10 @@ def get_binary(grayscale_image: np.ndarray) -> np.ndarray:
     Notes:
         Uses Gaussian adaptive thresholding with:
         - Max value: 255
-        - Block size: 11
+        - Block size: 21
         - Constant subtracted from mean: 2
     """
-    return cv2.adaptiveThreshold(
+    binary_image =  cv2.adaptiveThreshold(
         grayscale_image,
         255,
         cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -64,3 +64,6 @@ def get_binary(grayscale_image: np.ndarray) -> np.ndarray:
         11,
         2
     )
+    
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    return cv2.dilate(binary_image, kernel, iterations=1)
