@@ -28,9 +28,6 @@ def detect_and_crop(
     """
     image = read_image(source)
     binary = get_binary(get_grayscale(image))
-    cv2.imshow("output", binary)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
     
     M = cv2.moments(binary)
     if M["m00"] == 0:
