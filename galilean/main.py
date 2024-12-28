@@ -184,7 +184,7 @@ def main():
                 ret, frame = cap.read()
                 if not ret:
                     break
-                images.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                images.append(frame)
             cap.release()
             progress.advance(task)
         
