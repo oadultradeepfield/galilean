@@ -89,7 +89,8 @@ def get_quality_threshold() -> float:
         "2": 0.85,
         "3": 0.90,
         "4": 0.95,
-        "5": 0.99
+        "5": 0.99,
+        "6": 1.00
     }
     
     console.print(Panel("Image quality threshold:", style="cyan"))
@@ -116,14 +117,14 @@ def get_stacking_method() -> str:
 
 def get_sharpening_factor() -> float:
     factors = {
-        "1": 1.2,
-        "2": 2.0,
-        "3": 3.0
+        "1": 1.0,
+        "2": 1.2,
+        "3": 1.5,
     }
     
     console.print(Panel("Sharpening levels:", style="cyan"))
     console.print("1. Low")
-    console.print("2. Medium")
+    console.print("2. Moderate (Recommended)")
     console.print("3. High")
     
     choice = Prompt.ask("Select sharpening level", choices=list(factors.keys()))
