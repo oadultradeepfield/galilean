@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import pywt
 
 
 def calibrate_color(image: np.ndarray) -> np.ndarray:
