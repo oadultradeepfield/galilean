@@ -13,13 +13,11 @@ def read_image(source: Union[str, np.ndarray]) -> np.ndarray:
         return image
     return source.copy()
 
-
 def get_grayscale(image: np.ndarray) -> np.ndarray:
     """Convert an image to grayscale if it's in color, or return a copy if already grayscale."""
     if len(image.shape) == 3:
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return image.copy()
-
 
 def get_binary(grayscale_image: np.ndarray) -> np.ndarray:
     """Apply adaptive thresholding to create a binary image."""
