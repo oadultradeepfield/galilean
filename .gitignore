@@ -173,7 +173,8 @@ pyrightconfig.json
 *.DS_Store
 
 # Code testing files
-videos/
+source/
+out/
 
 node_modules
 
