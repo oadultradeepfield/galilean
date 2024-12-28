@@ -7,6 +7,7 @@ import numpy as np
 from detect_and_crop.handler import detect_and_crop
 from evaluate_and_align.handler import evaluate_and_align
 from image_stacking.handler import image_stacking
+from postprocessing.handler import postprocessing
 
 
 def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 480) -> None:
@@ -115,6 +116,35 @@ def test_image_stacking(input_dir: str, output_dir: str, method: str = "mean_wit
         raise Exception(f"Failed to save stacked image to: {out_path}")
     
     print(f"Successfully stacked and enhanced images from {input_dir}")
+    
+def test_postprocessing(input_dir: str, output_dir: str, sharpening_factor: float = 1.5) -> None:
+    """Tests post-processing pipeline on planetary images with color calibration, sharpening and super-resolution"""
+    if not os.path.exists(input_dir):
+        raise FileNotFoundError(f"Input directory not found: {input_dir}")
+    
+    os.makedirs(output_dir, exist_ok=True)
+    
+    for file in os.listdir(input_dir):
+        if file.endswith('_stacked.png'):
+            file_path = os.path.join(input_dir, file)
+            image = cv2.imread(file_path)
+            
+            if image is None:
+                print(f"Failed to read image: {file_path}")
+                continue
+                
+            try:
+                processed_image = postprocessing(image, sharpening_factor)
+                base_name = os.path.splitext(file)[0]
+                out_path = os.path.join(output_dir, f"{base_name}_postprocessed.png")
+                
+                if not cv2.imwrite(out_path, processed_image):
+                    raise Exception(f"Failed to save processed image to: {out_path}")
+                    
+                print(f"Successfully post-processed: {file_path}")
+                
+            except Exception as e:
+                print(f"Failed to process {file_path}: {str(e)}")
 
 if __name__ == "__main__":
     test_dirs = [
@@ -125,6 +155,7 @@ if __name__ == "__main__":
     out_base_dir = "test/out/detect_and_crop"
     align_base_dir = "test/out/evaluate_and_align"
     stack_base_dir = "test/out/image_stacking"
+    post_base_dir = "test/out/postprocessing"
 
     os.makedirs(stack_base_dir, exist_ok=True)
     cropped_dirs = test_multiple_directories(test_dirs, out_base_dir)
@@ -138,3 +169,8 @@ if __name__ == "__main__":
             test_image_stacking(align_dir, stack_base_dir)
         except Exception as e:
             print(f"Failed to process {cropped_dir}: {str(e)}")
+    
+    try:
+        test_postprocessing(stack_base_dir, post_base_dir)
+    except Exception as e:
+            print(f"Failed to process {stack_base_dir}: {str(e)}")
