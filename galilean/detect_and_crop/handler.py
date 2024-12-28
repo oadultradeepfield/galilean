@@ -2,7 +2,8 @@ from typing import Tuple, Union
 
 import cv2
 import numpy as np
-from utils import get_binary, get_grayscale, read_image
+
+from detect_and_crop.utils import get_binary, get_grayscale, read_image
 
 
 def detect_and_crop(
