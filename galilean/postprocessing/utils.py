@@ -17,3 +17,11 @@ def selective_sharpening(image: np.ndarray, sharpening_factor: float = 1.5) -> n
     mask = cv2.merge([mask] * 3)
     sharpened = cv2.addWeighted(image, 1 + sharpening_factor, cv2.GaussianBlur(image, (5, 5), 0), -sharpening_factor, 0)
     return cv2.convertScaleAbs(image * (1 - mask) + sharpened * mask)
+
+def images_sr(image: np.ndarray, scaling_factor: int = 2) -> np.ndarray:
+    sr_model = cv2.dnn_superres.DnnSuperResImpl_create()
+    model_path = f"models/EDSR_x{scaling_factor}.pb"
+    sr_model.readModel(model_path)
+    sr_model.setModel("edsr", scaling_factor)
+    scaled_image = sr_model.upsample(image)
+    return scaled_image

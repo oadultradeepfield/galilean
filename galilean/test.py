@@ -103,12 +103,12 @@ def test_image_stacking(input_dir: str, output_dir: str, method: str = "mean_wit
 
     result = image_stacking(np.array(images), method)
 
-    path_parts = input_dir.split('/')
+    path_parts = input_dir.split("/")
     try:
-        out_index = path_parts.index('out')
-        relative_path = '_'.join(path_parts[out_index + 1:])
+        out_index = path_parts.index("out")
+        relative_path = "_".join(path_parts[out_index + 1:])
     except ValueError:
-        relative_path = '_'.join(path_parts)
+        relative_path = "_".join(path_parts)
     
     out_path = os.path.join(output_dir, f"{relative_path}_stacked.png")
     
@@ -117,7 +117,7 @@ def test_image_stacking(input_dir: str, output_dir: str, method: str = "mean_wit
     
     print(f"Successfully stacked and enhanced images from {input_dir}")
     
-def test_postprocessing(input_dir: str, output_dir: str, sharpening_factor: float = 1.5) -> None:
+def test_postprocessing(input_dir: str, output_dir: str, sharpening_factor: float = 1.5, scaling_factor: int = 2) -> None:
     """Tests post-processing pipeline on planetary images with color calibration, sharpening and super-resolution"""
     if not os.path.exists(input_dir):
         raise FileNotFoundError(f"Input directory not found: {input_dir}")
@@ -125,7 +125,7 @@ def test_postprocessing(input_dir: str, output_dir: str, sharpening_factor: floa
     os.makedirs(output_dir, exist_ok=True)
     
     for file in os.listdir(input_dir):
-        if file.endswith('_stacked.png'):
+        if file.endswith("_stacked.png"):
             file_path = os.path.join(input_dir, file)
             image = cv2.imread(file_path)
             
@@ -134,7 +134,7 @@ def test_postprocessing(input_dir: str, output_dir: str, sharpening_factor: floa
                 continue
                 
             try:
-                processed_image = postprocessing(image, sharpening_factor)
+                processed_image = postprocessing(image, sharpening_factor, scaling_factor)
                 base_name = os.path.splitext(file)[0]
                 out_path = os.path.join(output_dir, f"{base_name}_postprocessed.png")
                 
