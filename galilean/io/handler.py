@@ -10,22 +10,8 @@ def detect_and_crop(
     crop_size: int,
     padding_color: Tuple[int, int, int] = (0, 0, 0)
 ) -> np.ndarray:
-    """
-    Detect the centroid of an object in an image and crop around it, 
-    padding with a specified color if needed.
-    
-    Args:
-        source: Either a path to an image file (str) or a numpy array containing the image
-        crop_size: The desired size of the output square crop in pixels
-        padding_color: BGR color tuple for padding (default: black)
-    
-    Returns:
-        np.ndarray: A square cropped image of size (crop_size x crop_size) centered on the object
-        
-    Raises:
-        Exception: If no object is detected in the image
-        ValueError: If the input image cannot be loaded or processed
-    """
+    """Detect the centroid of an object in an image and crop around it, 
+    padding with a specified color if needed."""
     image = read_image(source)
     binary = get_binary(get_grayscale(image))
     
