@@ -51,7 +51,7 @@ def test_multiple_directories(test_dirs: List[str], out_base_dir: str, crop_size
             print(f"Failed to process directory {test_dir}: {str(e)}")
     return output_dirs
 
-def test_evaluate_and_align(input_dir: str, output_dir: str) -> None:
+def test_evaluate_and_align(input_dir: str, output_dir: str, threshold: float=0.95) -> None:
     if not os.path.exists(input_dir):
         raise FileNotFoundError(f"Input directory not found: {input_dir}")
 
@@ -70,7 +70,7 @@ def test_evaluate_and_align(input_dir: str, output_dir: str) -> None:
     if not images:
         raise ValueError(f"No valid images found in directory: {input_dir}")
 
-    aligned_images, best_index, best_score, avg_quality = evaluate_and_align(images)
+    aligned_images, best_index, best_score, avg_quality = evaluate_and_align(images, threshold)
 
     for aligned_image, original_path in zip(aligned_images, image_paths):
         filename = os.path.basename(original_path)
@@ -89,12 +89,13 @@ if __name__ == "__main__":
     ]
     out_base_dir = "test/out/detect_and_crop"
     align_base_dir = "test/out/evaluate_and_align"
+    quality_threshold = 0.95
 
     cropped_dirs = test_multiple_directories(test_dirs, out_base_dir)
 
     for cropped_dir in cropped_dirs:
         align_dir = os.path.join(align_base_dir, os.path.basename(cropped_dir))
         try:
-            test_evaluate_and_align(cropped_dir, align_dir)
+            test_evaluate_and_align(cropped_dir, align_dir, quality_threshold)
         except Exception as e:
             print(f"Failed to align images in {cropped_dir}: {str(e)}")

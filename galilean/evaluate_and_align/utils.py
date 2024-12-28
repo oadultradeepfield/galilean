@@ -24,11 +24,14 @@ def evaluate_image_quality(images: np.ndarray) -> Tuple[np.ndarray, float]:
     avg_quality = np.mean(scores)
     return scores, avg_quality
 
-def select_template(images: np.ndarray) -> Tuple[int, np.ndarray, float, float]:
-    """Select best template based on quality score."""
+def select_template(images: np.ndarray, threshold: float = 0.95) -> Tuple[int, np.ndarray, float, float]:
+    """Select best template based on quality score and also return the top images based on threshold."""
     scores, avg_quality = evaluate_image_quality(images)
     best_index = np.argmax(scores)
-    return best_index, images[best_index], scores[best_index], avg_quality
+    sorted_indices = np.argsort(scores)[::-1]
+    num_top_images = int(len(images) * threshold)
+    top_images_indices = sorted_indices[:num_top_images]
+    return best_index, images[best_index], scores[best_index], avg_quality, top_images_indices
 
 def phase_correlation_align(template: np.ndarray, image: np.ndarray) -> Tuple[np.ndarray]:
     """Align image to template using phase correlation for translation only."""
