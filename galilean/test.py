@@ -22,7 +22,6 @@ def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 448) ->
     if not cv2.imwrite(out_path, result):
         raise Exception(f"Failed to save image to: {out_path}")
 
-
 def process_directory(test_dir: str, out_base_dir: str, crop_size: int = 448) -> None:
     if not os.path.exists(test_dir):
         raise FileNotFoundError(f"Input directory not found: {test_dir}")
@@ -42,7 +41,6 @@ def process_directory(test_dir: str, out_base_dir: str, crop_size: int = 448) ->
             except Exception as e:
                 print(f"Failed to process {file_path}: {str(e)}")
 
-
 def test_multiple_directories(test_dirs: List[str], out_base_dir: str, crop_size: int = 448) -> List[str]:
     output_dirs = []
     for test_dir in test_dirs:
@@ -52,7 +50,6 @@ def test_multiple_directories(test_dirs: List[str], out_base_dir: str, crop_size
         except Exception as e:
             print(f"Failed to process directory {test_dir}: {str(e)}")
     return output_dirs
-
 
 def test_evaluate_and_align(input_dir: str, output_dir: str) -> None:
     if not os.path.exists(input_dir):
@@ -83,7 +80,6 @@ def test_evaluate_and_align(input_dir: str, output_dir: str) -> None:
             raise Exception(f"Failed to save aligned image to: {out_path}")
 
     print(f"Alignment completed for {input_dir}. Best index: {best_index}, Best score: {best_score:.2f}, Avg quality: {avg_quality:.2f}")
-
 
 if __name__ == "__main__":
     test_dirs = [
