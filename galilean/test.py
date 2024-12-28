@@ -2,12 +2,14 @@ import os
 from typing import List
 
 import cv2
+import numpy as np
 
 from detect_and_crop.handler import detect_and_crop
 from evaluate_and_align.handler import evaluate_and_align
+from image_stacking.handler import image_stacking
 
 
-def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 448) -> None:
+def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 480) -> None:
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Input image not found: {image_path}")
 
@@ -22,7 +24,7 @@ def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 448) ->
     if not cv2.imwrite(out_path, result):
         raise Exception(f"Failed to save image to: {out_path}")
 
-def process_directory(test_dir: str, out_base_dir: str, crop_size: int = 448) -> None:
+def process_directory(test_dir: str, out_base_dir: str, crop_size: int = 480) -> None:
     if not os.path.exists(test_dir):
         raise FileNotFoundError(f"Input directory not found: {test_dir}")
 
@@ -41,7 +43,7 @@ def process_directory(test_dir: str, out_base_dir: str, crop_size: int = 448) ->
             except Exception as e:
                 print(f"Failed to process {file_path}: {str(e)}")
 
-def test_multiple_directories(test_dirs: List[str], out_base_dir: str, crop_size: int = 448) -> List[str]:
+def test_multiple_directories(test_dirs: List[str], out_base_dir: str, crop_size: int = 480) -> List[str]:
     output_dirs = []
     for test_dir in test_dirs:
         try:
@@ -81,6 +83,39 @@ def test_evaluate_and_align(input_dir: str, output_dir: str, threshold: float=0.
 
     print(f"Alignment completed for {input_dir}. Best index: {best_index}, Best score: {best_score:.2f}, Avg quality: {avg_quality:.2f}")
 
+def test_image_stacking(input_dir: str, output_dir: str, method: str = "mean_with_median_clipping") -> None:
+    if not os.path.exists(input_dir):
+        raise FileNotFoundError(f"Input directory not found: {input_dir}")
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    images = []
+    for file in sorted(os.listdir(input_dir)):
+        file_path = os.path.join(input_dir, file)
+        if os.path.isfile(file_path):
+            image = cv2.imread(file_path, cv2.IMREAD_COLOR)
+            if image is not None:
+                images.append(image)
+
+    if not images:
+        raise ValueError(f"No valid images found in directory: {input_dir}")
+
+    result = image_stacking(np.array(images), method)
+
+    path_parts = input_dir.split('/')
+    try:
+        out_index = path_parts.index('out')
+        relative_path = '_'.join(path_parts[out_index + 1:])
+    except ValueError:
+        relative_path = '_'.join(path_parts)
+    
+    out_path = os.path.join(output_dir, f"{relative_path}_stacked.png")
+    
+    if not cv2.imwrite(out_path, result):
+        raise Exception(f"Failed to save stacked image to: {out_path}")
+    
+    print(f"Successfully stacked and enhanced images from {input_dir}")
+
 if __name__ == "__main__":
     test_dirs = [
         "test/input/moon_sample_frames",
@@ -89,13 +124,17 @@ if __name__ == "__main__":
     ]
     out_base_dir = "test/out/detect_and_crop"
     align_base_dir = "test/out/evaluate_and_align"
-    quality_threshold = 0.95
+    stack_base_dir = "test/out/image_stacking"
 
+    os.makedirs(stack_base_dir, exist_ok=True)
     cropped_dirs = test_multiple_directories(test_dirs, out_base_dir)
 
     for cropped_dir in cropped_dirs:
-        align_dir = os.path.join(align_base_dir, os.path.basename(cropped_dir))
+        dir_name = os.path.basename(cropped_dir)
+        align_dir = os.path.join(align_base_dir, dir_name)
+        
         try:
-            test_evaluate_and_align(cropped_dir, align_dir, quality_threshold)
+            test_evaluate_and_align(cropped_dir, align_dir)
+            test_image_stacking(align_dir, stack_base_dir)
         except Exception as e:
-            print(f"Failed to align images in {cropped_dir}: {str(e)}")
+            print(f"Failed to process {cropped_dir}: {str(e)}")
