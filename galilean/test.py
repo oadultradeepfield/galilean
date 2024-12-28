@@ -2,7 +2,9 @@ import os
 from typing import List
 
 import cv2
-from handler import detect_and_crop
+
+from detect_and_crop.handler import detect_and_crop
+from evaluate_and_align.handler import evaluate_and_align
 
 
 def test_detect_and_crop(image_path: str, out_dir: str, crop_size: int = 448) -> None:
@@ -55,5 +57,5 @@ if __name__ == "__main__":
         "test/input/jupiter_sample_frames",
         "test/input/saturn_sample_frames"
     ]
-    out_base_dir = "test/out/io"
+    out_base_dir = "test/out/detect_and_crop"
     test_multiple_directories(test_dirs, out_base_dir)
