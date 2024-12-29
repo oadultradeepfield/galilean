@@ -1,4 +1,4 @@
-<div class="hidden max-w-5xl md:breadcrumbs md:my-4 md:flex md:justify-center md:text-sm">
+<div class="hidden max-w-5xl px-6 md:breadcrumbs md:my-4 md:flex md:justify-center md:text-sm">
 	<ul>
 		<li><a href="#Prerequisites">Prerequisites</a></li>
 		<li><a href="#Creating-the-Source-Directory">Creating the Source Directory</a></li>
@@ -6,7 +6,7 @@
 		<li><a href="#Contributing">Contributing</a></li>
 	</ul>
 </div>
-<div class="prose mx-auto mb-12 mt-4 max-w-3xl space-y-6">
+<div class="prose mx-auto mb-12 mt-4 max-w-3xl space-y-6 px-6">
 	<h1 class="mb-6 text-center text-3xl font-bold">User Manual</h1>
 
 	<h2 id="Prerequisites" class="text-2xl font-bold">Prerequisites</h2>

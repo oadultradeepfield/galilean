@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-	import Footer from '../components/common/Footer.svelte';
-	import Navbar from '../components/common/Navbar.svelte';
+	import Footer from '../lib/common/Footer.svelte';
+	import Navbar from '../lib/common/Navbar.svelte';
 	let { children } = $props();
 </script>
 
@@ -11,7 +11,7 @@
 	>
 		<Navbar />
 	</header>
-	<main class="mb-auto px-6">
+	<main class="mb-auto">
 		{@render children()}
 	</main>
 	<footer class="bg-neutral">
