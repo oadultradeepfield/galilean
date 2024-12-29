@@ -39,7 +39,7 @@ def list_video_files(directory: str = "source") -> List[str]:
 
 def select_videos(video_files: List[str]) -> List[str]:
     if not video_files:
-        console.print("[red]No video files found in the 'video' directory![/red]")
+        console.print("[red]No video files found in the 'source' directory![/red]")
         raise typer.Exit(1)
 
     table = Table(title="Available Videos")
