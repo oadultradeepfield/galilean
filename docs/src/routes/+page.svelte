@@ -3,7 +3,5 @@
 	import Hero from '../lib/landing/Hero.svelte';
 </script>
 
-<div class="relative overflow-x-hidden">
-	<Hero />
-	<UsageExample />
-</div>
+<Hero />
+<UsageExample />
