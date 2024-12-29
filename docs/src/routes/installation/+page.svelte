@@ -6,7 +6,7 @@
 		<li><a href="#Next-Steps">Next Steps</a></li>
 	</ul>
 </div>
-<div class="prose mx-auto mb-12 mt-4 max-w-3xl space-y-6 py-6">
+<div class="prose mx-auto mb-12 mt-4 max-w-3xl space-y-6 px-6">
 	<h1 class="mb-6 text-center text-3xl font-bold">Installation Guide</h1>
 
 	<h2 id="Prerequisites" class="text-2xl font-bold">Prerequisites</h2>
