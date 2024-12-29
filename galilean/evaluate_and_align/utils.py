@@ -19,7 +19,7 @@ def evaluate_image_quality(images: np.ndarray) -> Tuple[np.ndarray, float]:
     max_vals = np.max(metrics_array, axis=0)
     normalized = (metrics_array - min_vals) / (max_vals - min_vals + 1e-8)
     
-    weights = np.array([0.25, 0.45, 0.30])
+    weights = np.array([0.2, 0.5, 0.3])
     scores = np.sum(normalized * weights, axis=1)
     avg_quality = np.mean(scores)
     return scores, avg_quality
@@ -35,9 +35,6 @@ def select_template(images: np.ndarray, threshold: float = 0.95) -> Tuple[int, n
 
 def phase_correlation_align(template: np.ndarray, image: np.ndarray) -> Tuple[np.ndarray]:
     """Align image to template using phase correlation for translation only."""
-    if np.array_equal(template, image):
-        return image
-
     h, w = template.shape[:2]
 
     template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
@@ -57,6 +54,6 @@ def phase_correlation_align(template: np.ndarray, image: np.ndarray) -> Tuple[np
         x_shift -= w
 
     M = np.float32([[1, 0, x_shift], [0, 1, y_shift]])
-    aligned = cv2.warpAffine(image, M, (w, h), borderValue=0)
+    aligned = cv2.warpAffine(image, M, (w, h), borderMode=cv2.BORDER_REPLICATE)
 
     return aligned
