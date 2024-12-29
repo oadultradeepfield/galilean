@@ -8,6 +8,17 @@ export default {
 		extend: {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif']
+			},
+			typography: {
+				DEFAULT: {
+					css: {
+						pre: false,
+						code: false,
+						'pre code': false,
+						'code::before': false,
+						'code::after': false
+					}
+				}
 			}
 		}
 	},
