@@ -189,16 +189,16 @@ def main():
             cap.release()
             progress.advance(task)
         
-        task = progress.add_task("Processing images...", total=len(images))
-        cropped_images = np.array([detect_and_crop(image, crop_size) for image in images])
-        progress.advance(task)
+        # task = progress.add_task("Processing images...", total=len(images))
+        # cropped_images = np.array([detect_and_crop(image, crop_size) for image in images])
+        # progress.advance(task)
         
         task = progress.add_task("Aligning images...")
-        aligned_images, best_index, best_score, avg_quality = evaluate_and_align(cropped_images, threshold)
+        aligned_images, best_index, best_score, avg_quality = evaluate_and_align(np.array(images), threshold)
         progress.advance(task)
         
-        task = progress.add_task("Stacking images...")
-        stacked_image = image_stacking(aligned_images, stacking_method)
+        task = progress.add_task("Stacking and cropping images...")
+        stacked_image = detect_and_crop(image_stacking(aligned_images, stacking_method), crop_size)
         progress.advance(task)
         
         task = progress.add_task("Post-processing...")
