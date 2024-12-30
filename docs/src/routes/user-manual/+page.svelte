@@ -85,9 +85,9 @@
 			></pre>
 	</div>
 	<p>
-		This cropping process is similar to software like PIPP. However, our implementation will align
-		the images using phase correlation and then perform other steps. The cropping happens in the
-		final step, after stacking, to create centralized images.
+		This cropping process is similar to that used in software like PIPP. Cropping ensures that the
+		alignment algorithms can accurately detect image features, resulting in proper alignment and
+		sharper stacking outcomes.
 	</p>
 
 	<h3 class="text-xl font-bold">Choosing Number of Images</h3>
