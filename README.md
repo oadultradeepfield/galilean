@@ -12,7 +12,7 @@
 
 Galilean is a Python CLI tool inspired by popular planetary image processing software like PIPP, AutoStakkert!, and RegiStax. The original author, Phanuphat Srisukhawasu, is an astrophotography enthusiast. Unfortunately, as he now uses macOS instead of Windows, he cannot run these unsupported software tools natively. As a side project, he developed this CLI app to replicate their functionality. While the project is still under development and not perfect, it aims to provide similar capabilities.
 
-**Note**: For the installation guide, user manual, and examples, please visit [this page](https://galilean.phanuphats.com/). This README is intended for local development and contributions only.
+**Note**: For the installation guide, user manual, and examples, please visit [this page](https://galilean.vercel.app/). This README is intended for local development and contributions only.
 
 ## Getting Started
 
@@ -43,7 +43,7 @@ If you want to test on real-world data, create a `source` folder inside the `gal
 python3 galilean/main.py
 ```
 
-Follow the prompts in the CLI. More detailed information can be found on [this page](https://galilean.phanuphats.com/user-manual).
+Follow the prompts in the CLI. More detailed information can be found on [this page](https://galilean.vercel.app/user-manual).
 
 ### Working on Documentation
 
